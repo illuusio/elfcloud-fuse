@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(ElfcloudFS C CXX)
 
 set (APP_MAJOR 15)
-set (APP_MINOR 04)
+set (APP_MINOR 06)
 set (APP_VERSION "${APP_MAJOR}.${APP_MINOR}")
 
 option (BUILD_SHARED_LIBS "Build dynamic link libraries" OFF)
@@ -153,7 +153,7 @@ IF (NOT APPLE)
      "${PROJECT_BINARY_DIR}/elfcloud-fuse.spec" @ONLY)
 
      configure_file(${PROJECT_BINARY_DIR}/debian/changelog.in
-     "${PROJECT_BINARY_DIR}/changelog" @ONLY)
+     "${PROJECT_BINARY_DIR}/debian/changelog" @ONLY)
 ENDIF (NOT APPLE)
 
 # Subdirectories.
