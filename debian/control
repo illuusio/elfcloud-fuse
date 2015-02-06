@@ -1,0 +1,12 @@
+Source: elfcloud-fuse
+Section: fuse
+Priority: extra
+Maintainer: Tuukka Pasanen <tuukka.pasanen@ilmi.fi>
+Standards-Version: 3.7.3
+Build-Depends: libcrypto++-dev, libjsoncpp-dev, libfuse-dev, libcurl-dev, build-essential, pkg-config, cmake
+Homepage: http://www.ilmi.fi
+
+Package: elfcloud-fuse
+Architecture: any
+Description: elfcloud.fi is a Finland based credibly secure cloud storage service
+

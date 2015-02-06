@@ -1,0 +1,62 @@
+%define major 1
+%define data_version 1.0
+
+%define name    elfcloud-fuse
+%define version @APP_VERSION@
+%define programname %{name}
+%define libname %{name}
+
+Vendor:       Ilmi Solutions Finland <ilmi at ilmi dot fi>
+Packager:     Ilmi RPM suppliment <rpms at ilmi dot fi>
+Summary:      Elfcloud.fi is a Finland based credibly secure cloud storage service
+Summary(fi):  Elfcloud.fi on suomalainen tietoturvallinen pilvitallennuspalvelu
+Name: 	      %{name}
+Version:      %{version}
+Release:      0
+Prefix:       /usr
+License:      Apache-2.0+
+Group:        Productivity/Networking/Other
+Source0:      %{name}_%{version}.tar.gz
+URL: 	      http://www.ilmi.fi
+BuildRoot:    /var/tmp/%{name}-%{version}
+Provides:     %name = %version-%release
+BuildRequires: cryptopp-devel
+BuildRequires: jsoncpp-devel
+BuildRequires: fuse-devel
+BuildRequires: libcurl-devel
+BuildRequires: cmake
+BuildRequires: gcc-c++
+
+%description
+Elfcloud.fi is a Finland based credibly secure cloud storage service.
+Solution scales and supports private, corporate and foundation needs.
+We offer a trusthworthy security model, open source clients, full APIs and transparency,
+all the way to the hosting locations.
+
+%description -l fi
+Elfcloud.fi on suomalainen tietoturvallinen pilvitallennuspalvelu.
+Voit tallentaa, varmuuskopioida, työskennellä ja jakaa tiedostoja suoraan pilvestä
+säilyttäen tietojesi yksityisyyden, eheyden ja ympärivuorokautisen saatavuuden.
+
+%prep
+%setup -q -n %{name}_%{version}
+
+cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} .
+
+%build
+make -j 4
+
+%install
+rm -rf %{buildroot}
+make DESTDIR=%{?buildroot:%{buildroot}} install
+
+%clean
+rm -rf %buildroot
+
+%files
+%defattr(-, root, root)
+%{_bindir}/*
+
+%changelog
+
+

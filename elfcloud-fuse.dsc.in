@@ -1,0 +1,13 @@
+Format: 1.0
+Source: elfcloud-fuse
+Binary: elfcloud-fuse
+Architecture: any
+Section: net
+Version: @APP_VERSION@
+Maintainer: Tuukka Pasanen <tuukka.pasanen@ilmi.fi>
+Standards-Version: 3.7.3
+Build-Depends: debhelper, libcrypto++-dev, libjsoncpp-dev, libfuse-dev, libcurl4-openssl-dev, build-essential, pkg-config, cmake
+Homepage: http://www.ilmi.fi
+DEBTRANSFORM-TAR: elfcloud-fuse_@APP_VERSION@.tar.gz
+Files:
+ #MD5# #SIZE# elfcloud-fuse_@APP_VERSION@.tar.gz
