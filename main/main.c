@@ -96,7 +96,7 @@ struct ecOptionsData
 //struct fuse_operations elfcloudfs_oper;
 
 /**
- * Struct that contains elfcloud params
+ * Struct that contains elfCLOUD params
  */
 struct elfcloud_params
 {
@@ -160,7 +160,7 @@ static int _ec_processOptions(
                 }
                 else
                 {
-                    printf("Username must contain chae '@' now it's: %s (with -h or --help help)\n", arg);
+                    fprintf(stderr, "Username must contain char '@' now it's: %s (with -h or --help help)\n", arg);
                     return -1;
                 }
             }
@@ -170,7 +170,7 @@ static int _ec_processOptions(
             }
             else
             {
-                fprintf(stderr, "Too much non-stadard options: %s!\n", arg);
+                fprintf(stderr, "Too much non-standard options: %s!\n", arg);
             }
             break;
         default:
@@ -192,7 +192,7 @@ int _ec_askPassword(
         int l_iNread = 0;
         char l_strLine[1024];
 
-        printf("Elfcloud.fi Password: ");
+        printf("elfCLOUD.fi Password: ");
 
         /* Turn echoing off and fail if we can't. */
         if (tcgetattr(fileno(stdin), &l_SOld) != 0)
@@ -216,7 +216,8 @@ int _ec_askPassword(
         }
         else
         {
-            printf("Too sort password! Exiting!\n");;
+            fprintf(stderr, "\nToo short password (Password min. length: 8 chars yours was: %d chars)!\n",strlen(l_strLine));
+            fprintf(stderr, "Sorry to inform this is not tolerable.. exiting!\n");
             return (-1);
         }
 
@@ -229,7 +230,7 @@ int _ec_askPassword(
         int i = 0;
         if (l_pFile == NULL)
         {
-            printf("Can't find password file: (%s)", ec.passfile);
+            fprintf(stderr, "Can't find password file: (%s)", ec.passfile);
             return -1;
         }
         fread(m_SParams.password, 1024, 1, l_pFile);
@@ -247,7 +248,7 @@ int _ec_askPassword(
     }
 
 
-    printf("Can't set password.. exiting!\n");
+    fprintf(stderr, "Something doesn't work correct can't set password.. exiting!\n");
     return -1;
 }
 
@@ -330,29 +331,32 @@ int main(
         return 1;
     }
 
-    printf("mount point: %s (multi: %d, foreground: %d)\n", m_SParams.mountpoint, l_iMultithreaded, l_iForeground);
+    printf("elfCLOUD.fi FUSE mount point: %s (multi: %d, foreground: %d)\n", m_SParams.mountpoint, l_iMultithreaded, l_iForeground);
 
     if (m_SParams.mountpoint == NULL)
     {
-        printf("Can't parse mount point.. bad arguments!\n");
+        fprintf(stderr, "Can't parse mount point. Something wrong with arguments! Exiting!\n");
         return -1;
     }
 
     l_iRtn = stat(m_SParams.mountpoint, &l_SStat);
     if (l_iRtn == -1)
     {
-        printf("Mount point not good or not exist (%s)!\n", m_SParams.mountpoint);
-        printf("Probably elfcloud-fuse have crashed and mounpoint is unclean\n");
-        printf("Please try root or sudo 'umount %s' if it helps\n", m_SParams.mountpoint);
+        fprintf(stderr, "Mount point not good or not exist (%s)!\n", m_SParams.mountpoint);
+        fprintf(stderr, "Probably elfcloud-fuse have crashed and mount point is unclean\n");
+        fprintf(stderr, "Please try root or sudo 'umount %s' if it helps\n", m_SParams.mountpoint);
         perror(m_SParams.mountpoint);
+        fprintf(stderr, "Correct this! exiting!\n");
+        return -1;
     }
 
     l_SCh = fuse_mount(m_SParams.mountpoint, &l_SArgs);
 
     if (!l_SCh)
     {
-        printf("Do you have permission to read and write to directory!\n");
-        printf("because can't mount: (%s)!\n", m_SParams.mountpoint);
+        fprintf(stderr, "Do you have permission to read and write to directory!\n");
+        fprintf(stderr, "because can't mount: (%s)!\n", m_SParams.mountpoint);
+        fprintf(stderr, "Correct this! exiting!\n");
         return -1;
     }
 
@@ -360,9 +364,10 @@ int main(
 
     if (l_SFuse == NULL)
     {
-        printf("Mount point not good or not exist (%s)!\n", m_SParams.mountpoint);
+        fprintf(stderr, "Something wrong with mount point or it doesn't exist (mount point: %s)!\n", m_SParams.mountpoint);
         perror(m_SParams.mountpoint);
         fuse_unmount(m_SParams.mountpoint, l_SCh);
+        fprintf(stderr, "Correct this! exiting!\n");
         return -1;
 
     }
