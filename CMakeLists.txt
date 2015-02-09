@@ -92,7 +92,7 @@ IF (APPLE)
   set(CPACK_BUNDLE_NAME "elfcloud-fuse")
   set(CPACK_BUNDLE_ICON "icon/elfcloud-fuse.icns")
   set(CPACK_BUNDLE_PLIST "icon/Info.plist")
-  set(CPACK_BUNDLE_STARTUP_COMMAND "main/elfcloud-fuse")
+  set(CPACK_BUNDLE_STARTUP_COMMAND "macosx/elfcloud-fuse.sh")
 ENDIF (APPLE)
 
 SET(CPACK_PACKAGE_INSTALL_DIRECTORY 
