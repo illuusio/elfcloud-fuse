@@ -5,12 +5,16 @@ if [ "${APP_LOCATION}" == "./.." ]; then
       APP_LOCATION="$(pwd)/.."
 fi
 
-if [ "${1}" = "" ]; then
+# There must be first argument, second argument and if there -psn_ it laucnhed from finder
+if [ "${1}" = "" ] || [ "${2}" = "" ] || [[ "${1}" == -psn_* ]]; then
   echo "usage: ${APP_LOCATION}/Resources/bin/elfcloud-fuse your@domain.fi /your/mount/point"
 
   DIALOG_TEXT="Currently elfCLOUD-FUSE doesn't have GUI for mounting.\nPlease use this application from commandline:\n${APP_LOCATION}/Resources/bin/elfcloud-fuse your@domain.fi /your/mount/point"
 
-  osascript -e 'tell application "Finder"' -e 'activate' -e "display dialog \"${DIALOG_TEXT}\"" -e 'end tell' > /dev/null
+  # Only if we are launched from Finder we show graphics
+  if [[ "${1}" == -psn_* ]]; then
+     osascript -e 'tell application "Finder"' -e 'activate' -e "display dialog \"${DIALOG_TEXT}\"" -e 'end tell' > /dev/null
+  fi
 
   exit 1
 fi

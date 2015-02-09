@@ -52,6 +52,35 @@ cd /mount/point/that/you/can/write/and/read
 ls
 </pre>
 
+### Linux and FUSE
+FUSE should be automaticly loaded on start or when needed so if problem arises it's you
+distribution malconfiguration.
+
+
+### Mac OS X and OSXFuse
+Application is compiled with OSXFuse from: https://osxfuse.github.io/ version <b>2.7.5</b>
+If you need newer one or older one please recompile from source.
+
+There is no GUI for bundle with Mac OS X to use. Only commandline from
+
+<pre>
+/Applications/elfcloud-fuse.app/Contents/Resources/bin/elfcloud-fuse your@domain.fi /your/mount/point
+</pre>
+
+### OSX specific problems
+OSXFuse should be loaded to memory before mounting filesystem. It should happen automaticly after boot.
+If you can't find it from command (line that contains 'com.github.osxfuse.filesystems.osxfusefs')
+<pre>
+kextstat
+</pre>
+then you should try to load it manually from commandline
+<pre>
+sudo kextload /Library/Filesystems/osxfusefs.fs/Support/osxfusefs.kext
+</pre>
+of from System center from Apple menu (OSXFuse has own setup there).
+
+more problems solving please read OSXFuse Wiki: https://osxfuse.github.io/
+
 ##Problems
 If elfCLOUD-FUSE crashes FUSE pipes that it holds are not clearly released so you need to umount with root mount point
 
